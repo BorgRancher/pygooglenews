@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import urllib
 from dateparser import parse as parse_date
 import requests
+from security import safe_requests
 
 
 
@@ -62,14 +63,14 @@ class GoogleNews:
             raise Exception("Pick either ScrapingBee or proxies. Not both!")
 
         if proxies:
-            r = requests.get(feed_url, proxies = proxies)
+            r = safe_requests.get(feed_url, proxies = proxies)
         else:
-            r = requests.get(feed_url)
+            r = safe_requests.get(feed_url)
 
         if scraping_bee:
             r = self.__scaping_bee_request(url = feed_url, api_key = scraping_bee)
         else:
-            r = requests.get(feed_url)
+            r = safe_requests.get(feed_url)
 
 
         if 'https://news.google.com/rss/unsupported' in r.url:
