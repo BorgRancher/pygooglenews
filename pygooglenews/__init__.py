@@ -49,8 +49,8 @@ class GoogleNews:
                 "api_key": api_key,
                 "url": url,
                 "render_js": "false"
-            }
-        )
+            }, 
+        timeout=60)
         if response.status_code == 200:
             return response
         if response.status_code != 200:
@@ -62,14 +62,14 @@ class GoogleNews:
             raise Exception("Pick either ScrapingBee or proxies. Not both!")
 
         if proxies:
-            r = requests.get(feed_url, proxies = proxies)
+            r = requests.get(feed_url, proxies = proxies, timeout=60)
         else:
-            r = requests.get(feed_url)
+            r = requests.get(feed_url, timeout=60)
 
         if scraping_bee:
             r = self.__scaping_bee_request(url = feed_url, api_key = scraping_bee)
         else:
-            r = requests.get(feed_url)
+            r = requests.get(feed_url, timeout=60)
 
 
         if 'https://news.google.com/rss/unsupported' in r.url:
